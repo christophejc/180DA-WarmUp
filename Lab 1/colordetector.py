@@ -1,6 +1,8 @@
 import cv2
 from PIL import Image
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 
 cap = cv2.VideoCapture(0)
 
@@ -28,13 +30,7 @@ while True:
         
         mask = cv2.inRange(hsvImg, lowerLim, upperLim)
 
-        
-        #cont,_ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        #cont_frame = cv2.drawContours(frame, cont, -1, 255, 3)
-        #c = max(cont, key = cv2.contourArea)
-        #x, y, h, w = cv2.boundingRect(c)
-        #cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 5)
-
+      #BOUNDING BOX
         mask_ = Image.fromarray(mask)
 
         bbox = mask_.getbbox()
@@ -47,7 +43,7 @@ while True:
         #print(bbox)
 
         cv2.imshow('frame', frame)
-        
+
         if cv2.waitKey(1) == ord('q'):
                 break
 cap.release()
