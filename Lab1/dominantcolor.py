@@ -1,59 +1,53 @@
 
 ## references a mix of
+# https://www.youtube.com/watch?v=rKcwcARdg9M&list=PLzMcBGfZo4-lUA8uGjeXhBUUzPYc6vZRn&index=3 camera and video capture
 # https://github.com/opencv/opencv/blob/master/samples/python/kmeans.py K-means clustering
-# https://code.likeagirl.io/finding-dominant-colour-on-an-image-b4e075f98097 Dominant Color
-# https://docs.opencv.org/4.x/df/d9d/tutorial_py_colorspaces.html camera setup
+# https://code.likeagirl.io/finding-dominant-colour-on-an-image-b4e075f98097 dominant color
+# https://www.youtube.com/watch?v=ddSo8Nb0mTw&list=PLzMcBGfZo4-lUA8uGjeXhBUUzPYc6vZRn&index=6 color detection/threshold
 
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans
 
-# Function to get dominant color using KMeans
-def get_dominant_color(image, k=1):
-    # Reshape the image to a flattened array of pixels
-    pixels = image.reshape((-1, 3))
-    # Use KMeans to cluster the pixels
-    kmeans = KMeans(n_clusters=k)
-    kmeans.fit(pixels)
-    # Get the dominant color
-    dominant_color = kmeans.cluster_centers_.astype(int)[0]
-    return dominant_color
 
-# Open video capture
+def getdominantColor(image, k=1):
+    # immage becomes a single array
+    pixels = image.reshape((-1, 3))
+    
+    # clustering the image (k=1 means just into one dominant)
+    clt = KMeans(n_clusters=k)
+    clt.fit(pixels)
+    
+    # return dominant color
+    dominantColor = clt.cluster_centers_.astype(int)[0]
+    return dominantColor
+
+# video capture
 cap = cv2.VideoCapture(0)
 
-# Create a new window for displaying the dominant color
+# dominant color window
 cv2.namedWindow("Dominant Color", cv2.WINDOW_NORMAL)
 
 while True:
-    # Read frame from the video feed
+    # frame dimentsions
     ret, frame = cap.read()
-
-    # Get the dimensions of the frame
     height, width, _ = frame.shape
-
-    # Define the central rectangle coordinates (adjust as needed)
+    #central rectangle
     x1, y1 = int(width * 0.25), int(height * 0.25)
     x2, y2 = int(width * 0.75), int(height * 0.75)
-
-    # Extract the central rectangle
     roi = frame[y1:y2, x1:x2]
 
-    # Get the dominant color in the central rectangle
-    dominant_color = get_dominant_color(roi)
-
-    # Display the dominant color in a separate window
+    # central rectangle with dominant color
+    dominantColor = getdominantColor(roi)
     dominant_color_display = np.zeros((100, 100, 3), dtype=np.uint8)
-    dominant_color_display[:, :] = dominant_color
+    dominant_color_display[:, :] = dominantColor
     cv2.imshow("Dominant Color", dominant_color_display)
 
-    # Display the original video feed
     cv2.imshow("Video Feed", frame)
 
-    # Break the loop when 'q' is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the video capture and close all windows
+
 cap.release()
 cv2.destroyAllWindows()
