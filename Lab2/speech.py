@@ -4,7 +4,8 @@ import pyttsx3
 recognizer = speech_recognition.Recognizer()
 
 while True:
-
+    if 0xFF == ord('q'):
+        quit
     try:
 
         with speech_recognition.Microphone() as mic:
@@ -17,8 +18,9 @@ while True:
 
             print(f"Recognized {text}")
 
-    except speech_recognition.UnknownValueError():
+    except speech_recognition.UnknownValueError:
         
         recognizer = speech_recognition.Recognizer()
         continue      
 
+    
