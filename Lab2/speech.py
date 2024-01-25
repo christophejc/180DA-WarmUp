@@ -1,3 +1,5 @@
+# Refereneces from: https://www.youtube.com/watch?v=9GJ6XeB-vMg for audio to text algorithm
+
 import speech_recognition
 import pyttsx3
 
