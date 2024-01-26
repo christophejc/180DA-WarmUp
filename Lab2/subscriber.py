@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 
 # Define callbacks - functions that run when events happen.
-
+counter = 0
 # Callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connection returned result: " + str(rc))
@@ -19,9 +19,11 @@ def on_disconnect(client, userdata, rc):
 # Default message callback.
 # (you can create separate callbacks per subscribed topic)
 def on_message(client, userdata, message):
+    global counter
     print('Received message: "' + str(message.payload) + '" on topic "' +
           message.topic + '" with QoS ' + str(message.qos))
-
+    counter += float(message.payload)
+    print("Counter: " + str(counter))
 # Create a client instance.
 client = mqtt.Client()
 
