@@ -39,9 +39,9 @@ def rps():
     elif aiChoice==paper and choice ==rock:
         print("My paper covers your rock! You Lose \n")
     elif aiChoice==scissors and choice ==rock:
-        print("Your rock broke my scissors! You Lose \n")
+        print("Your rock broke my scissors! You Win\n")
     elif aiChoice==scissors and choice ==paper:
-        print("My scissors cuts your paper! You Win\n")
+        print("My scissors cuts your paper! You Lose\n")
 
     playagain = input("Would you like to play again? [y/n] \n")
     if (playagain == "y"):
