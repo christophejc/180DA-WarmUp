@@ -7,7 +7,7 @@ brokerPort = 1883
 topic = "RPS"
 
 #storing the players moves
-name = "Enter name: "
+name = input("Enter name: ")
 
 
 # Callback for when the client receives a CONNACK response from the server.
@@ -30,7 +30,7 @@ def player_move ():
         if move in ["r", "p", "s"]:
             return move
         else:
-            print("Invalid input! Rock [r], Paper [p], or Scissors [s] ?\n")
+            print("Invalid input!\n")
 
 
 
